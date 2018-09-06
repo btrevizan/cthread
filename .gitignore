@@ -1,0 +1,6 @@
+*.o
+/bin/*
+!/bin/support.o
+/teste/*
+!/teste/*.c
+!/teste/Makefile
