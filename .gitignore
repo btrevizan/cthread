@@ -3,4 +3,5 @@
 !/bin/support.o
 /teste/*
 !/teste/*.c
+!/teste/*.h
 !/teste/Makefile
