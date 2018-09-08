@@ -5,7 +5,7 @@ BIN_DIR=../bin/
 SRC_DIR=../src/
 
 all: ccreate_test.o cyield_test.o csetprio_test.o cjoin_test.o \
-     csem_init_test.o cwait_test.o
+     csem_init_test.o cwait_test.o csignal_test.o
 
 ccreate_test.o: ccreate_test.c teste.h $(INC_DIR)cthread.h
 	$(CC) -c ccreate_test.c -Wall
@@ -24,6 +24,9 @@ csem_init_test.o: csem_init_test.c teste.h $(INC_DIR)cthread.h
 
 cwait_test.o: cwait_test.c teste.h $(INC_DIR)cthread.h
 	$(CC) -c cwait_test.c -Wall
+
+csignal_test.o: csignal_test.c teste.h $(INC_DIR)cthread.h
+	$(CC) -c csignal_test.c -Wall
 
 clean:
 	rm -rf *.o
