@@ -50,17 +50,17 @@ void* func_3(void* arg) {
 int main() {
     int ret_code;
     args_t args = {-1, "", 1};
-    char trace[10] = "";
+    char trace2[10] = "";
     args2_t args2[9] = {
-        {NULL,  "",  0},
-        {trace, "4", 1},
-        {trace, "7", 2},
-        {trace, "2", 0},
-        {trace, "5", 1},
-        {trace, "8", 2},
-        {trace, "3", 0},
-        {trace, "6", 1},
-        {trace, "9", 2}
+        {NULL,   "",  0},
+        {trace2, "4", 1},
+        {trace2, "7", 2},
+        {trace2, "2", 0},
+        {trace2, "5", 1},
+        {trace2, "8", 2},
+        {trace2, "3", 0},
+        {trace2, "6", 1},
+        {trace2, "9", 2}
     };
 
     start_test("csetprio");
@@ -88,7 +88,7 @@ int main() {
 
     csetprio(0, 0); // Evita preempção por prioridade
 
-    strcat(trace, "1");
+    strcat(trace2, "1");
 
     for (int i = 1; i < 9; i++) {
         args2[i - 1].next_tid = ccreate(func_3, &args2[i], args2[i].prio);
@@ -101,6 +101,7 @@ int main() {
     cjoin(args2[0].next_tid);
 
     // Testa se a ordem de execução foi a correta
-    assert("A proxima thread da fila eh executada, usando uma politica FIFO "
-           "por prioridade", strcmp(trace, "123456789") == 0);
+    assert("Quando uma thread eh bloqueada, a proxima thread da fila eh "
+           "executada, usando uma politica FIFO por prioridade", 
+           strcmp(trace2, "123456789") == 0);
 }
