@@ -5,3 +5,4 @@
 !/teste/*.c
 !/teste/*.h
 !/teste/Makefile
+/lib/*
