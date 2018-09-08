@@ -48,6 +48,7 @@ void* func_2(void* arg) {
 int main() {
     args_t args = {""};
     int ret_code;
+    int old_count;
     int tid1, tid2;
 
     char trace2[10] = "";
@@ -67,13 +68,16 @@ int main() {
 
     csem_init(&args.semaforo, 1);
 
+    old_count = args.semaforo.count;
+
     ret_code = cwait(&args.semaforo);
 
     assert("Se o contador eh maior que 0, continua executando", 1);
 
     assert("Retorna 0", ret_code == 0);
 
-    assert("O contador eh decrementado em 1 unidade", args.semaforo.count == 0);
+    assert("O contador eh decrementado em 1 unidade", 
+           args.semaforo.count - old_count == -1);
 
 
 

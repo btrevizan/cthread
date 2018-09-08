@@ -63,7 +63,7 @@ int main() {
         {trace2, "9", 2}
     };
 
-    start_test("csetprio");
+    start_test("cjoin");
 
     ret_code = cjoin(1);
 

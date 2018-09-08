@@ -14,5 +14,5 @@ int main() {
     assert("O contador deve iniciar com o valor fornecido",
            semaforo.count == 3);
 
-    assert("A fila inicia vazia", semaforo.fila->first == NULL);
+    assert("A fila inicia vazia", semaforo.fila && semaforo.fila->first == NULL);
 }

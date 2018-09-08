@@ -56,6 +56,7 @@ void* func_2(void* arg) {
 int main() {
     csem_t semaforo;
     int ret_code;
+    int old_count;
 
     char trace[10] = "";
     int tid, unblocker_tid;
@@ -74,12 +75,14 @@ int main() {
 
     csem_init(&semaforo, 1);
 
+    old_count = semaforo.count;
     cwait(&semaforo);
     ret_code = csignal(&semaforo);
 
     assert("Retorna 0", ret_code == 0);
 
-    assert("O contador eh incrementado em 1 unidade", semaforo.count == 1);
+    assert("O contador eh incrementado em 1 unidade", 
+           semaforo.count - old_count == 1);
 
     
 
