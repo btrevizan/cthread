@@ -4,36 +4,44 @@ INC_DIR=../include/
 BIN_DIR=../bin/
 SRC_DIR=../src/
 
-all: ccreate_test.o cyield_test.o csetprio_test.o cjoin_test.o \
-     csem_init_test.o cwait_test.o csignal_test.o termino_test.o \
-		 cidentify_test.o
+EXECUTABLES= ccreate_test cyield_test csetprio_test cjoin_test \
+             csem_init_test cwait_test csignal_test termino_test \
+		         cidentify_test
 
-ccreate_test.o: ccreate_test.c teste.h $(INC_DIR)cthread.h
-	$(CC) -c ccreate_test.c -Wall
+all: $(EXECUTABLES)
 
-cyield_test.o: cyield_test.c teste.h $(INC_DIR)cthread.h
-	$(CC) -c cyield_test.c -Wall
+ccreate_test: ccreate_test.c teste.h $(INC_DIR)cthread.h $(LIB_DIR)libcthread.a
+	$(CC) -o ccreate_test ccreate_test.c -L$(LIB_DIR) -lcthread -Wall
 
-csetprio_test.o: csetprio_test.c teste.h $(INC_DIR)cthread.h
-	$(CC) -c csetprio_test.c -Wall
+cyield_test: cyield_test.c teste.h $(INC_DIR)cthread.h $(LIB_DIR)libcthread.a
+	$(CC) -o cyield_test cyield_test.c -L$(LIB_DIR) -lcthread -Wall
 
-cjoin_test.o: cjoin_test.c teste.h $(INC_DIR)cthread.h
-	$(CC) -c cjoin_test.c -Wall
+csetprio_test: csetprio_test.c teste.h $(INC_DIR)cthread.h \
+               $(LIB_DIR)libcthread.a
+	$(CC) -o csetprio_test csetprio_test.c -L$(LIB_DIR) -lcthread -Wall
 
-csem_init_test.o: csem_init_test.c teste.h $(INC_DIR)cthread.h
-	$(CC) -c csem_init_test.c -Wall
+cjoin_test: cjoin_test.c teste.h $(INC_DIR)cthread.h $(LIB_DIR)libcthread.a
+	$(CC) -o cjoin_test cjoin_test.c -L$(LIB_DIR) -lcthread -Wall
 
-cwait_test.o: cwait_test.c teste.h $(INC_DIR)cthread.h
-	$(CC) -c cwait_test.c -Wall
+csem_init_test: csem_init_test.c teste.h $(INC_DIR)cthread.h \
+                $(LIB_DIR)libcthread.a
+	$(CC) -o csem_init_test csem_init_test.c -L$(LIB_DIR) -lcthread -Wall
 
-csignal_test.o: csignal_test.c teste.h $(INC_DIR)cthread.h
-	$(CC) -c csignal_test.c -Wall
+cwait_test: cwait_test.c teste.h $(INC_DIR)cthread.h $(LIB_DIR)libcthread.a
+	$(CC) -o cwait_test cwait_test.c -L$(LIB_DIR) -lcthread -Wall
 
-cidentify_test.o: cidentify_test.c teste.h $(INC_DIR)cthread.h
-	$(CC) -c cidentify_test.c -Wall
+csignal_test: csignal_test.c teste.h $(INC_DIR)cthread.h $(LIB_DIR)libcthread.a
+	$(CC) -o csignal_test csignal_test.c -L$(LIB_DIR) -lcthread -Wall
 
-termino_test.o: termino_test.c teste.h $(INC_DIR)cthread.h
-	$(CC) -c termino_test.c -Wall
+cidentify_test: cidentify_test.c teste.h $(INC_DIR)cthread.h \
+                $(LIB_DIR)libcthread.a
+	$(CC) -o cidentify_test cidentify_test.c -L$(LIB_DIR) -lcthread -Wall
+
+termino_test: termino_test.c teste.h $(INC_DIR)cthread.h $(LIB_DIR)libcthread.a
+	$(CC) -o termino_test termino_test.c -L$(LIB_DIR) -lcthread -Wall
+
+run: all
+	for exec in $(EXECUTABLES); do ./$$exec; done
 
 clean:
-	rm -rf *.o
+	rm -rf $(EXECUTABLES)
