@@ -78,4 +78,6 @@ int main() {
            strcmp(trace, "12") == 0);
 
     cjoin(tid_func_2);
+
+    return 0;
 }

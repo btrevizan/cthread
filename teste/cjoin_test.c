@@ -104,4 +104,6 @@ int main() {
     assert("Quando uma thread eh bloqueada, a proxima thread da fila eh "
            "executada, usando uma politica FIFO por prioridade", 
            strcmp(trace2, "123456789") == 0);
+
+    return 0;
 }

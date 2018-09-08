@@ -38,4 +38,6 @@ int main() {
 
     assert("Se houver uma thread em Aptos com prioridade maior que a setada, "
            "deve ocorrer preempcao", strcmp(trace, "123") == 0);
+
+    return 0;
 }

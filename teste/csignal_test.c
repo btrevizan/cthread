@@ -115,4 +115,6 @@ int main() {
 
     assert("Quando uma thread com prioridade maior que a atual eh desbloqueada "
            "deve ocorrer preempcao por prioridade", strcmp(trace, "123") == 0);
+
+    return 0;
 }

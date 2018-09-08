@@ -58,4 +58,6 @@ int main() {
            "maior que a atual.", arg == 1);
 
     cjoin(tid);
+
+    return 0;
 }

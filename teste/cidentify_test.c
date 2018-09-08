@@ -26,4 +26,6 @@ int main() {
     }
 
     assert("Respeita o tamanho maximo definido por size", !sobrescreveu);
+
+    return 0;
 }
