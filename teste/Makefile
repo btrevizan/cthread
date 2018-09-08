@@ -5,7 +5,8 @@ BIN_DIR=../bin/
 SRC_DIR=../src/
 
 all: ccreate_test.o cyield_test.o csetprio_test.o cjoin_test.o \
-     csem_init_test.o cwait_test.o csignal_test.o termino_test.o
+     csem_init_test.o cwait_test.o csignal_test.o termino_test.o \
+		 cidentify_test.o
 
 ccreate_test.o: ccreate_test.c teste.h $(INC_DIR)cthread.h
 	$(CC) -c ccreate_test.c -Wall
@@ -27,6 +28,9 @@ cwait_test.o: cwait_test.c teste.h $(INC_DIR)cthread.h
 
 csignal_test.o: csignal_test.c teste.h $(INC_DIR)cthread.h
 	$(CC) -c csignal_test.c -Wall
+
+cidentify_test.o: cidentify_test.c teste.h $(INC_DIR)cthread.h
+	$(CC) -c cidentify_test.c -Wall
 
 termino_test.o: termino_test.c teste.h $(INC_DIR)cthread.h
 	$(CC) -c termino_test.c -Wall
