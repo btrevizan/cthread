@@ -49,10 +49,12 @@ int main() {
         tid[i] = ccreate(func, &arguments[i], arguments[i].prio);
     }
 
+    // Cada thread chama cyield para dar lugar à próxima thread
     ret_code = cyield();
 
     assert("Retorna 0", ret_code == 0);
 
+    // Testa se a ordem de execução foi a correta
     assert("A proxima thread da fila eh executada, usando uma politica FIFO "
            "por prioridade", strcmp(trace, "123456789") == 0);
 
