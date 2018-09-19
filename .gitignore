@@ -6,3 +6,6 @@
 !/teste/*.h
 !/teste/Makefile
 /lib/*
+cmake-build-debug*
+CMakeLists.txt
+.idea/*
