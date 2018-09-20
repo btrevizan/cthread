@@ -22,7 +22,7 @@ libcthread.a: lib.o $(BIN_DIR)support.o
 	ar crs $(LIB_DIR)libcthread.a $(BIN_DIR)lib.o $(BIN_DIR)support.o
 
 lib.o: $(SRC_DIR)lib.c $(INC_DIR)cdata.h $(INC_DIR)cthread.h \
-       $(INC_DIR)support.h
+       $(INC_DIR)support.h $(INC_DIR)helpers.h
 	$(CC) -c -o $(BIN_DIR)lib.o $(SRC_DIR)lib.c -Wall
 
 clean:
