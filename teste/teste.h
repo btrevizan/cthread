@@ -1,3 +1,6 @@
+#ifndef TESTE_H
+#define TESTE_H
+
 #include <stdio.h>
 
 #define print_success(description) \
@@ -18,3 +21,5 @@ void assert(char* description, int assertion) {
         print_fail(description);
     }
 }
+
+#endif //TESTE_H
