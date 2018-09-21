@@ -12,43 +12,43 @@ static int first_run = 1;
 static int tid = 0;
 
 int ccreate (void* (*start)(void*), void *arg, int prio) {
-	cthread_init();
+	if (cthread_init() < 0) return -1;
 	return -1;
 }
 
 int csetprio(int tid, int prio) {
-	cthread_init();
+	if (cthread_init() < 0) return -1;
 	return -1;
 }
 
 int cyield(void) {
-	cthread_init();
+	if (cthread_init() < 0) return -1;
 	return -1;
 }
 
 int cjoin(int tid) {
-	cthread_init();
+	if (cthread_init() < 0) return -1;
 	return -1;
 }
 
 int csem_init(csem_t *sem, int count) {
-	cthread_init();
+	if (cthread_init() < 0) return -1;
 	return -1;
 }
 
 int cwait(csem_t *sem) {
-	cthread_init();
+	if (cthread_init() < 0) return -1;
 	return -1;
 }
 
 int csignal(csem_t *sem) {
-	cthread_init();
+	if (cthread_init() < 0) return -1;
 	return -1;
 }
 
 int cidentify (char *name, int size) {
-	cthread_init();
-	strncpy (name, "Bernardo Trevizan, Eduarda Trindade, Gabriel Haggstrom", size);
+	if (cthread_init() < 0) return -1;
+	strncpy (name, "Bernardo Trevizan - 00285638\nEduarda Trindade - 00274709\nGabriel Haggstrom - 00228552", size);
 	return 0;
 }
 
@@ -86,13 +86,13 @@ int cthread_init() {
 	// Set main's TCB
 	TCB_t *main_thread = (TCB_t *) malloc(sizeof(TCB_t));
 
-	main_thread->tid = get_tid();
+	main_thread->tid = get_tid(); // zero
 	main_thread->state = PROCST_EXEC;
 	main_thread->prio = LOW_PRIO;
 	main_thread->context = *main_context;
 
 	// Set on running
-	states->running = main_context;
+	states->running = main_thread;
 	return 0;
 }
 
@@ -116,6 +116,8 @@ TCB_t* scheduler() {
 int dispatcher(TCB_t *old) {
 	TCB_t *new = scheduler();
 	change_context(old, new);
+
+	return 0;
 }
 
 int change_context(TCB_t *old, TCB_t *new) {
@@ -259,4 +261,6 @@ void terminate(TCB_t *thread) {
 
 int cthread_exit() {
 	free(states);
+
+	return 0;
 }
