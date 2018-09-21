@@ -58,7 +58,7 @@ int get_tid(){
 
 int cthread_init() {
 	if(first_run == 0)
-		return -1;
+		return 0;
 
 	// Remove first run
 	first_run--;
@@ -77,19 +77,16 @@ int cthread_init() {
 	if(CreateFila2(states->ready_low))
 		return -1;
 
-	// Create main context
-	ucontext_t *main_context = (ucontext_t *) malloc(sizeof(ucontext_t));
-
-	if(getcontext(main_context) == -1)
-		return -1;
-
 	// Set main's TCB
 	TCB_t *main_thread = (TCB_t *) malloc(sizeof(TCB_t));
 
-	main_thread->tid = get_tid(); // zero
+    // Create main context
+    if(getcontext(&main_thread->context) == -1)
+        return -1;
+
+	main_thread->tid = get_tid();  // zero
 	main_thread->state = PROCST_EXEC;
 	main_thread->prio = LOW_PRIO;
-	main_thread->context = *main_context;
 
 	// Set on running
 	states->running = main_thread;
