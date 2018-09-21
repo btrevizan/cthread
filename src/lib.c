@@ -84,10 +84,6 @@ int cthread_init() {
 	// Set main's TCB
 	TCB_t *main_thread = (TCB_t *) malloc(sizeof(TCB_t));
 
-    // Create main context
-    if(getcontext(&main_thread->context) == -1)
-        return -1;
-
 	main_thread->tid = get_tid();  // zero
 	main_thread->state = PROCST_EXEC;
 	main_thread->prio = LOW_PRIO;
