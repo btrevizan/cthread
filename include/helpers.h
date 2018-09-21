@@ -23,7 +23,6 @@ int cthread_exit();
 TCB_t* scheduler();
 int init_first_run();
 TCB_t* search_TCB(int tid);
-TCB_t* search_TCB_in_queue(int tid, PFILA2 queue);
 int dispatcher(TCB_t *old);
 int set_ready(TCB_t *thread);
 void terminate(TCB_t *thread);

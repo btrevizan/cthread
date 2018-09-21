@@ -8,12 +8,16 @@
 #include "../include/helpers.h"
 
 static states_t *states;
+static PFILA2 threads;
+
 static int first_run = 1;
 static int tid = 0;
 
 int ccreate (void* (*start)(void*), void *arg, int prio) {
 	if (cthread_init() < 0) return -1;
 	return -1;
+
+	// TODO: adicionar na fila de threads
 }
 
 int csetprio(int tid, int prio) {
@@ -202,47 +206,25 @@ int set_blocked(TCB_t *thread) {
 }
 
 TCB_t* search_TCB(int tid) {
-	if(states->running != NULL)
-		if(tid == states->running->tid)
-			return states->running;
+    TCB_t *thread;
+    int result = FirstFila2(threads);
 
-	TCB_t *result;
+    while(result == 0){
+        thread = (TCB_t *) GetAtIteratorFila2(threads);
 
-	result = search_TCB_in_queue(tid, states->ready_high);
-	if(result != NULL)
-		return result;
+        if(thread->tid == tid)
+            return thread;
 
-	result = search_TCB_in_queue(tid, states->ready_medium);
-	if(result != NULL)
-		return result;
+        if(thread->data != NULL) {
+            TCB_t *aux = (TCB_t *) thread->data;
+            if (aux->tid == tid)
+                return aux;
+        }
 
-	result = search_TCB_in_queue(tid, states->ready_low);
-	if(result != NULL)
-		return result;
+        result = NextFila2(threads);
+    }
 
-	return NULL;
-}
-
-TCB_t* search_TCB_in_queue(int tid, PFILA2 queue){
-	TCB_t *thread;
-	int result = FirstFila2(queue);
-
-	while(result == 0){
-		thread = (TCB_t *) GetAtIteratorFila2(queue);
-
-		if(thread->tid == tid)
-			return thread;
-
-		if(thread->data != NULL) {
-			TCB_t *aux = (TCB_t *) thread->data;
-			if (aux->tid == tid)
-				return aux;
-		}
-
-		result = NextFila2(queue);
-	}
-
-	return NULL;
+    return NULL;
 }
 
 void terminate(TCB_t *thread) {
@@ -250,9 +232,25 @@ void terminate(TCB_t *thread) {
 	if(thread->data != NULL)
 		set_ready((TCB_t *) thread->data);
 
-	states->running = NULL;
-	free(thread);
+	// Remove from thread list
+	TCB_t *aux;
+    int it = FirstFila2(threads);
 
+    while(it == 0){
+        aux = (TCB_t *) GetAtIteratorFila2(threads);
+
+        if(thread->tid == aux->tid) {
+            DeleteAtIteratorFila2(threads);
+            it = 1;
+        } else {
+            it = NextFila2(threads);
+        }
+    }
+
+    // Remove from running
+	states->running = NULL;
+
+    free(thread);
 	dispatcher(NULL);
 }
 
