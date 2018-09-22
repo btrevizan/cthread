@@ -1,6 +1,7 @@
 #include "../include/cthread.h"
 #include "teste.h"
 #include <string.h>
+#include <stdlib.h>
 
 typedef struct args_t {
   int tid;

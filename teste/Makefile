@@ -10,38 +10,54 @@ EXECUTABLES= ccreate_test cyield_test csetprio_test cjoin_test \
 
 all: $(EXECUTABLES)
 
-ccreate_test: ccreate_test.c teste.h $(INC_DIR)cthread.h $(LIB_DIR)libcthread.a
-	$(CC) -std=c99 -o ccreate_test ccreate_test.c -L$(LIB_DIR) -lcthread -Wall
+teste.o: teste.c teste.h
+	$(CC) -std=c99 -c teste.c -Wall
 
-cyield_test: cyield_test.c teste.h $(INC_DIR)cthread.h $(LIB_DIR)libcthread.a
-	$(CC) -std=c99 -o cyield_test cyield_test.c -L$(LIB_DIR) -lcthread -Wall
+ccreate_test: ccreate_test.c teste.o teste.h $(INC_DIR)cthread.h \
+              $(LIB_DIR)libcthread.a
+	$(CC) -std=c99 -o ccreate_test ccreate_test.c teste.o -L$(LIB_DIR) -lcthread \
+	 -Wall
 
-csetprio_test: csetprio_test.c teste.h $(INC_DIR)cthread.h \
+cyield_test: cyield_test.c teste.o teste.h $(INC_DIR)cthread.h \
+             $(LIB_DIR)libcthread.a
+	$(CC) -std=c99 -o cyield_test cyield_test.c teste.o -L$(LIB_DIR) -lcthread \
+	-Wall
+
+csetprio_test: csetprio_test.c teste.o teste.h $(INC_DIR)cthread.h \
                $(LIB_DIR)libcthread.a
-	$(CC) -std=c99 -o csetprio_test csetprio_test.c -L$(LIB_DIR) -lcthread -Wall
+	$(CC) -std=c99 -o csetprio_test csetprio_test.c teste.o -L$(LIB_DIR) \
+	-lcthread -Wall
 
-cjoin_test: cjoin_test.c teste.h $(INC_DIR)cthread.h $(LIB_DIR)libcthread.a
-	$(CC) -std=c99 -o cjoin_test cjoin_test.c -L$(LIB_DIR) -lcthread -Wall
+cjoin_test: cjoin_test.c teste.o teste.h $(INC_DIR)cthread.h \
+            $(LIB_DIR)libcthread.a
+	$(CC) -std=c99 -o cjoin_test cjoin_test.c teste.o -L$(LIB_DIR) -lcthread -Wall
 
-csem_init_test: csem_init_test.c teste.h $(INC_DIR)cthread.h \
+csem_init_test: csem_init_test.c teste.o teste.h $(INC_DIR)cthread.h \
                 $(LIB_DIR)libcthread.a
-	$(CC) -std=c99 -o csem_init_test csem_init_test.c -L$(LIB_DIR) -lcthread -Wall
+	$(CC) -std=c99 -o csem_init_test csem_init_test.c teste.o -L$(LIB_DIR) \
+	-lcthread -Wall
 
-cwait_test: cwait_test.c teste.h $(INC_DIR)cthread.h $(LIB_DIR)libcthread.a
-	$(CC) -std=c99 -o cwait_test cwait_test.c -L$(LIB_DIR) -lcthread -Wall
+cwait_test: cwait_test.c teste.o teste.h $(INC_DIR)cthread.h \
+            $(LIB_DIR)libcthread.a
+	$(CC) -std=c99 -o cwait_test cwait_test.c teste.o -L$(LIB_DIR) -lcthread -Wall
 
-csignal_test: csignal_test.c teste.h $(INC_DIR)cthread.h $(LIB_DIR)libcthread.a
-	$(CC) -std=c99 -o csignal_test csignal_test.c -L$(LIB_DIR) -lcthread -Wall
+csignal_test: csignal_test.c teste.o teste.h $(INC_DIR)cthread.h \
+              $(LIB_DIR)libcthread.a
+	$(CC) -std=c99 -o csignal_test csignal_test.c teste.o -L$(LIB_DIR) -lcthread \
+	-Wall
 
-cidentify_test: cidentify_test.c teste.h $(INC_DIR)cthread.h \
+cidentify_test: cidentify_test.c teste.o teste.h $(INC_DIR)cthread.h \
                 $(LIB_DIR)libcthread.a
-	$(CC) -std=c99 -o cidentify_test cidentify_test.c -L$(LIB_DIR) -lcthread -Wall
+	$(CC) -std=c99 -o cidentify_test cidentify_test.c teste.o -L$(LIB_DIR) \
+	-lcthread -Wall
 
-termino_test: termino_test.c teste.h $(INC_DIR)cthread.h $(LIB_DIR)libcthread.a
-	$(CC) -std=c99 -o termino_test termino_test.c -L$(LIB_DIR) -lcthread -Wall
+termino_test: termino_test.c teste.o teste.h $(INC_DIR)cthread.h \
+              $(LIB_DIR)libcthread.a
+	$(CC) -std=c99 -o termino_test termino_test.c teste.o -L$(LIB_DIR) -lcthread \
+	-Wall
 
 run: all
 	for exec in $(EXECUTABLES); do ./$$exec; done
 
 clean:
-	rm -rf $(EXECUTABLES)
+	rm -rf $(EXECUTABLES) teste.o

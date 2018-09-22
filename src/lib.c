@@ -230,23 +230,23 @@ void terminate(TCB_t *thread) {
 
 	// Remove from thread list
 	TCB_t *aux;
-    int it = FirstFila2(threads);
+	int it = FirstFila2(threads);
 
-    while(it == 0){
-        aux = (TCB_t *) GetAtIteratorFila2(threads);
+	while(it == 0){
+			aux = (TCB_t *) GetAtIteratorFila2(threads);
 
-        if(thread->tid == aux->tid) {
-            DeleteAtIteratorFila2(threads);
-            it = 1;
-        } else {
-            it = NextFila2(threads);
-        }
-    }
+			if(thread->tid == aux->tid) {
+					DeleteAtIteratorFila2(threads);
+					it = 1;
+			} else {
+					it = NextFila2(threads);
+			}
+	}
 
-    // Remove from running
+	// Remove from running
 	states->running = NULL;
 
-    free(thread);
+	free(thread);
 	dispatcher(NULL);
 }
 

@@ -1,5 +1,6 @@
 #include "../include/cthread.h"
 #include "teste.h"
+#include <stdlib.h>
 
 void* func(void* arg) {
     *((int*) arg) = 1;

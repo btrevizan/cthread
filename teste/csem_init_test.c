@@ -1,5 +1,6 @@
 #include "../include/cthread.h"
 #include "teste.h"
+#include <stdlib.h>
 
 int main() {
     csem_t semaforo = {0, NULL};
