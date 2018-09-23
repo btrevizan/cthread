@@ -7,6 +7,8 @@
 #include "../include/cdata.h"
 #include "../include/helpers.h"
 
+#define STACK_SIZE 16384
+
 static states_t *states;
 static PFILA2 threads;
 
@@ -15,19 +17,52 @@ static int tid = 0;
 
 int ccreate (void* (*start)(void*), void *arg, int prio) {
 	if (cthread_init() < 0) return -1;
-	return -1;
 
-	// TODO: adicionar na fila de threads
+	if (prio < 0 || prio > 2) return -1;
+
+	TCB_t *thread = (TCB_t *) malloc(sizeof(TCB_t));
+
+	thread->tid = get_tid();
+	thread->state = PROCST_APTO;
+	thread->prio = prio;
+
+	// Create the termination context
+	ucontext_t *terminate_ctx = malloc(sizeof(ucontext_t));
+
+	getcontext(terminate_ctx);
+
+	terminate_ctx->uc_stack.ss_sp = malloc(STACK_SIZE);
+	terminate_ctx->uc_stack.ss_size = STACK_SIZE;
+
+	makecontext(terminate_ctx, (void (*)(void)) terminate, 1, thread);
+
+	// Create the thread context
+	getcontext(&thread->context);
+
+	thread->context.uc_stack.ss_sp = malloc(STACK_SIZE);
+	thread->context.uc_stack.ss_size = STACK_SIZE;
+	thread->context.uc_link = terminate_ctx;
+
+	makecontext(&thread->context, (void (*)(void)) start, 1, arg);
+
+	// Add to thread list
+	AppendFila2(threads, thread);
+
+	return set_ready(thread);
 }
 
 int csetprio(int tid, int prio) {
 	if (cthread_init() < 0) return -1;
-	return -1;
+
+	states->running->prio = prio;
+
+	return preemption();
 }
 
 int cyield(void) {
 	if (cthread_init() < 0) return -1;
-	return -1;
+	
+	return set_ready(states->running);
 }
 
 int cjoin(int tid) {
@@ -70,9 +105,11 @@ int cthread_init() {
 	// Initialize base structures
 	states = (states_t *) malloc(sizeof(states_t));
 
+	threads = (PFILA2) malloc(sizeof(FILA2));
+
 	states->ready_high = (PFILA2) malloc(sizeof(FILA2));
-    states->ready_medium = (PFILA2) malloc(sizeof(FILA2));
-    states->ready_low = (PFILA2) malloc(sizeof(FILA2));
+	states->ready_medium = (PFILA2) malloc(sizeof(FILA2));
+	states->ready_low = (PFILA2) malloc(sizeof(FILA2));
 
 	if(CreateFila2(states->ready_high))
 		return -1;
@@ -89,6 +126,9 @@ int cthread_init() {
 	main_thread->tid = get_tid();  // zero
 	main_thread->state = PROCST_EXEC;
 	main_thread->prio = LOW_PRIO;
+
+	// Add to thread list
+	AppendFila2(threads, main_thread);
 
 	// Set on running
 	states->running = main_thread;
