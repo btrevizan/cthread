@@ -149,7 +149,6 @@ TCB_t* scheduler() {
 	} else if(FirstFila2(states->ready_low) == 0) {
 		next = (TCB_t *) GetAtIteratorFila2(states->ready_low);
 	} else {
-		cthread_exit();
 		return NULL;
 	}
 
@@ -158,6 +157,9 @@ TCB_t* scheduler() {
 
 int dispatcher(TCB_t *old) {
 	TCB_t *new = scheduler();
+	if (new == NULL) 
+		cthread_exit();
+	
 	change_context(old, new);
 
 	return 0;
@@ -176,7 +178,7 @@ int change_context(TCB_t *old, TCB_t *new) {
 
 int preemption() {
 	TCB_t *new = scheduler();
-	if(new->prio < states->running->prio) {
+	if(new != NULL && new->prio < states->running->prio) {
 		// New thread has a higher priority
 		// Remove the running thread and set it to ready
 		set_ready_as_prio(states->running);
@@ -299,5 +301,5 @@ void terminate(TCB_t *thread) {
 int cthread_exit() {
 	free(states);
 
-	return 0;
+	exit(0);
 }
