@@ -70,6 +70,10 @@ int cthread_init() {
 	// Initialize base structures
 	states = (states_t *) malloc(sizeof(states_t));
 
+	states->ready_high = (PFILA2) malloc(sizeof(FILA2));
+    states->ready_medium = (PFILA2) malloc(sizeof(FILA2));
+    states->ready_low = (PFILA2) malloc(sizeof(FILA2));
+
 	if(CreateFila2(states->ready_high))
 		return -1;
 
