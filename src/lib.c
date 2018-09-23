@@ -48,7 +48,9 @@ int ccreate (void* (*start)(void*), void *arg, int prio) {
 	// Add to thread list
 	AppendFila2(threads, thread);
 
-	return set_ready(thread);
+	set_ready(thread);
+
+	return thread->tid;
 }
 
 int csetprio(int tid, int prio) {
@@ -172,7 +174,7 @@ int change_context(TCB_t *old, TCB_t *new) {
 
 int preemption() {
 	TCB_t *new = scheduler();
-	if(new->prio > states->running->prio) {
+	if(new->prio < states->running->prio) {
 		// New thread has a higher priority
 		// Remove the running thread and set it to ready
 		set_ready_as_prio(states->running);
