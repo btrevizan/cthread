@@ -56,6 +56,8 @@ int ccreate (void* (*start)(void*), void *arg, int prio) {
 int csetprio(int tid, int prio) {
 	if (cthread_init() < 0) return -1;
 
+	if (prio < 0 || prio > 2) return -1;
+
 	states->running->prio = prio;
 
 	return preemption();
