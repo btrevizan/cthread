@@ -216,6 +216,7 @@ int set_ready(TCB_t *thread) {
 	if(thread->tid == states->running->tid) {
 		// Thread is executing
 		states->running = NULL;
+		set_ready_as_prio(thread);
 		return dispatcher(thread);
 	}
 
