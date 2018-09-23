@@ -68,5 +68,6 @@ int main() {
 
     assert("A thread que terminou nao deve mais existir", todas_terminaram);
 
+    end_test();
     return 0;
 }

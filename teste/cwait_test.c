@@ -122,5 +122,6 @@ int main() {
            "executada, usando uma politica FIFO por prioridade", 
            strcmp(trace2, "123456789") == 0);
 
+    end_test();
     return 0;
 }

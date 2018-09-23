@@ -13,3 +13,7 @@ void assert(char* description, int assertion) {
         printf("FAIL %s\n", description);
     }
 }
+
+void end_test() {
+    printf("==========================================================\n");
+}

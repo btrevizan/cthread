@@ -80,5 +80,6 @@ int main() {
 
     cjoin(tid_func_2);
 
+    end_test();
     return 0;
 }

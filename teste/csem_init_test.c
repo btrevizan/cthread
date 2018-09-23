@@ -18,5 +18,6 @@ int main() {
     assert("A fila inicia vazia", 
            semaforo.fila && semaforo.fila->first == NULL);
 
+    end_test();
     return 0;
 }

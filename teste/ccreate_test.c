@@ -60,5 +60,6 @@ int main() {
 
     cjoin(tid);
 
+    end_test();
     return 0;
 }
