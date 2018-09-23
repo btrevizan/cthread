@@ -51,6 +51,7 @@ int main() {
     }
 
     // Cada thread chama cyield para dar lugar à próxima thread
+    csetprio(0, 2);
     ret_code = cyield();
 
     assert("Retorna 0", ret_code == 0);
@@ -63,6 +64,8 @@ int main() {
         cjoin(tid[i]);
     }
 
+
+    csetprio(0, 0); // Evita preempção por prioridade
 
     trace[0] = '\0'; // String vazia
 
