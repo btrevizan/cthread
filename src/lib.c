@@ -102,7 +102,22 @@ int csem_init(csem_t *sem, int count) {
 
 int cwait(csem_t *sem) {
 	if (cthread_init() < 0) return -1;
-	return -1;
+	
+	TCB_t *tcb_blocked;
+
+	if(sem == NULL) return -1;
+
+	sem->count = sem->count - 1;
+
+	if(sem->count < 0)
+	{
+		tcb_blocked = (TCB_t *) states->running;
+
+		AppendFila2(sem->fila,(void*) tcb_blocked);
+		set_blocked(tcb_blocked);
+	}
+
+	return 0;
 }
 
 int csignal(csem_t *sem) {
