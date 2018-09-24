@@ -72,7 +72,20 @@ int cyield(void) {
 
 int cjoin(int tid) {
 	if (cthread_init() < 0) return -1;
-	return -1;
+	
+	TCB_t *tcb_blocked, *tcb_blocker; 
+
+	tcb_blocked = (TCB_t *) states->running;
+	tcb_blocker = (TCB_t *) search_TCB(tid);
+
+	if(tcb_blocker == NULL) return -1;
+	if(tcb_blocker->data != NULL) return -1;
+
+	tcb_blocker->data = (TCB_t *) tcb_blocked;
+
+	set_blocked(tcb_blocked);
+
+	return 0;
 }
 
 int csem_init(csem_t *sem, int count) {
