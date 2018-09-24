@@ -25,6 +25,7 @@ int ccreate (void* (*start)(void*), void *arg, int prio) {
 	thread->tid = get_tid();
 	thread->state = PROCST_APTO;
 	thread->prio = prio;
+	thread->data = NULL;
 
 	// Create the termination context
 	ucontext_t *terminate_ctx = malloc(sizeof(ucontext_t));
@@ -130,6 +131,7 @@ int cthread_init() {
 	main_thread->tid = get_tid();  // zero
 	main_thread->state = PROCST_EXEC;
 	main_thread->prio = LOW_PRIO;
+	main_thread->data = NULL;
 
 	// Add to thread list
 	AppendFila2(threads, main_thread);
