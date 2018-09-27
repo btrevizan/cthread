@@ -2,7 +2,7 @@
 /*
  *	Programa de exemplo de uso da biblioteca cthread
  *
- *	Versão 1.0 - 14/04/2016
+ *	Versï¿½o 1.0 - 14/04/2016
  *
  *	Sistemas Operacionais I - www.inf.ufrgs.br
  *
@@ -26,10 +26,10 @@ int main(int argc, char *argv[]) {
 	int	id0, id1;
 	int i;
 
-	id0 = ccreate(func0, (void *)&i, 0);
-	id1 = ccreate(func1, (void *)&i, 0);
+	id0 = ccreate(func0, (void *)&i, 2);
+	id1 = ccreate(func1, (void *)&i, 2);
 
-	printf("Eu sou a main após a criação de ID0 e ID1\n");
+	printf("Eu sou a main apÃ³s a criaÃ§Ã£o de ID0 e ID1\n");
 
 	cjoin(id0);
 	cjoin(id1);

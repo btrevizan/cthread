@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
 
   
     for (i = 0; i < MAX_THR; i++) {
-        pid[i] = ccreate(func, (void *)('A'+i), 0);
+        pid[i] = ccreate(func, (void *)('A'+i), 2);
        if ( pid[i] == -1) {
           printf("ERRO: criação de thread!\n");
           exit(-1);
