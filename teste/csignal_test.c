@@ -76,8 +76,8 @@ int main() {
 
     csem_init(&semaforo, 1);
 
-    old_count = semaforo.count;
     cwait(&semaforo);
+    old_count = semaforo.count;
     ret_code = csignal(&semaforo);
 
     assert("Retorna 0", ret_code == 0);
@@ -109,6 +109,7 @@ int main() {
 
 
 
+    trace[0] = '\0'; // String vazia
     tid = ccreate(func_2, &args[0], 2);
     cwait(&semaforo);
     strcat(trace, "2");
