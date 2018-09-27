@@ -150,7 +150,7 @@ int csignal(csem_t *sem) {
 	sem->count = sem->count + 1;
 
 	// If queue not empty...
-	if(sem->count >= 0) {
+	if(sem->fila->first != NULL) {
 		FirstFila2(sem->fila);
 
 		TCB_t *thread = (TCB_t *) GetAtIteratorFila2(sem->fila);
