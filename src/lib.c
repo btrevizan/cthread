@@ -337,12 +337,6 @@ TCB_t* search_TCB(int tid) {
         if(thread->tid == tid)
             return thread;
 
-        if(thread->data != NULL) {
-            TCB_t *aux = (TCB_t *) thread->data;
-            if (aux->tid == tid)
-                return aux;
-        }
-
         result = NextFila2(threads);
     }
 
