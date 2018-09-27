@@ -113,8 +113,31 @@ int cwait(csem_t *sem) {
 	{
 		tcb_blocked = (TCB_t *) states->running;
 
-		AppendFila2(sem->fila,(void*) tcb_blocked);
-		set_blocked(tcb_blocked);
+		if(sem->fila->first == NULL) {
+			AppendFila2(sem->fila,(void*) tcb_blocked);
+		} else {
+			if(FirstFila2(sem->fila) != 0) return -1;
+
+			TCB_t *thread = (TCB_t *) GetAtIteratorFila2(sem->fila);
+
+			if(thread == NULL) return -1;
+
+			// While there is a thread with equal or higher priority (lower number)...
+			while(thread != NULL && tcb_blocked->prio >= thread->prio) {
+				NextFila2(sem->fila);
+				thread = (TCB_t *) GetAtIteratorFila2(sem->fila);
+			}
+
+			if(thread == NULL) {
+				AppendFila2(sem->fila, (void *) tcb_blocked);
+			} else {
+				// Found a thread with lowest priority than tcb_blocked
+				// Put tcb_blocked in front of it
+				if(InsertBeforeIteratorFila2(sem->fila, (void *) tcb_blocked) != 0) return -1;
+			}
+		}
+
+		return set_blocked(tcb_blocked);
 	}
 
 	return 0;
@@ -122,7 +145,24 @@ int cwait(csem_t *sem) {
 
 int csignal(csem_t *sem) {
 	if (cthread_init() < 0) return -1;
-	return -1;
+	if(sem == NULL) return -1;
+
+	sem->count = sem->count + 1;
+
+	// If queue not empty...
+	if(sem->count >= 0) {
+		FirstFila2(sem->fila);
+
+		TCB_t *thread = (TCB_t *) GetAtIteratorFila2(sem->fila);
+
+		// Error
+		if(thread == NULL) return -1;
+
+		DeleteAtIteratorFila2(sem->fila);
+		return set_ready(thread);
+	}
+
+	return 0;
 }
 
 int cidentify (char *name, int size) {
